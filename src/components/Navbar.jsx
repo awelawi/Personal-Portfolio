@@ -5,11 +5,13 @@ import { navLinks } from '../Constants';
 import { logo, menu, close} from '../assets'
 /**
  * This includes the topbar items used to navigate between the various sections
+ * This defines those items and styles
  * TODO: Visit tailwind.css to understand what those classnames mean
  * @returns 
  */
 const Navbar = () => {
   const [active, setActive] = useState(' ')
+  const [toggle, setToggle] = useState(false)
   return (
     <nav 
 
@@ -43,7 +45,64 @@ const Navbar = () => {
         */}
         <img src = {logo} alt = {logo} className = "w-9 h-9 object-contain"
         />
-      </Link>
+        {/* Defining page na,e */}
+        <p className='text-white text-[18px] font-bold cursor-pointer flex'>
+          Emmanuella &nbsp;
+          <span className='sm:block hidden'>| Portfolio 
+          </span>
+        </p>
+      </Link> 
+      {/* shows a list flex view of nar bar menu */}
+      <ul className='list-none sm: flex flex-row gap-10'>
+        {navLinks.map((nav) => (
+          <li 
+          key = {nav.id}
+          className= {`${
+            active === nav.title
+            ? "text-white"
+            : "text-secondary"
+          } hover:text-white text-[18px]
+          font-medium cursor pointe`} 
+          onClick={() => setActive(nav.title)}
+          >
+            <a href = {`${nav.id}`}>{nav.title}</a>
+          </li>
+        ))}
+      </ul>
+      {/* defines an image for the menu button in case of mobile device */}
+      <div className='sm: hidden flex flex-1 justify-end items-center'>
+          <img src = {toggle ? close: menu}
+            alt="menu" className='w-[28px] h-[28px]
+              object-contain cursor-pointer
+            ' onClick = {() => setToggle(!toggle)}
+          />
+
+          <div className={`${!toggle ? 'hidden': 'flex'}p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-1-[140px]
+          z-10 rounded-x1
+          `}>
+            <ul className='list-none flex sm: flex justify-end
+            items-start flex-col gap-4
+            '>
+              {/* Maps each navbar item to  the id and title*/}
+              {navLinks.map((nav) => (
+                <li
+                  key={nav.id}
+                  className={`${active === nav.title
+                      ? "text-white"
+                      : "text-secondary"
+                    } font-poppins font-medium cursor-pointer text-[16px]`}
+                  onClick={() => {
+                    setToggle(!toggle)
+                    setActive(nav.title)}
+                    }
+                >
+                  <a href={`${nav.id}`}>{nav.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+      </div>
+      <p className='text-red-500'></p>
       </div>
     </nav>
   )
